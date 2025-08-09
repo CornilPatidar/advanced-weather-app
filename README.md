@@ -1,20 +1,20 @@
-# Advanced Weather App
+# ⛅ Advanced Weather App
 
 React weather application with intelligent search and real-time forecasting.
 
-## Key Features
+## ✨ Key Features
 
-- **Smart Search**: Autocomplete with 200k+ cities, 300ms debounce, rate limit protection
-- **Real-time Data**: Current weather + 5-day forecast with Promise.all optimization  
-- **Responsive Design**: Mobile-first approach with clean UI
+- 🔍 **Smart Search**: Autocomplete with 200k+ cities, 300ms debounce, rate limit protection
+- ⚡ **Real-time Data**: Current weather + 5-day forecast with Promise.all optimization  
+- 📱 **Responsive Design**: Mobile-first approach with clean UI
 
-## Tech Stack
+## 🚀 Tech Stack
 
 ```
 React 18 | OpenWeatherMap API | GeoDB Cities API | React Select
 ```
 
-## Quick Start
+## 🛠️ Quick Start
 
 ```bash
 git clone https://github.com/cornil-devil/advanced-weather-app.git
@@ -23,11 +23,11 @@ npm install
 npm start
 ```
 
-**API Keys Required**: Add your keys to `src/api/OpenWeatherService.js`
+**🔑 API Keys Required**: Add your keys to `src/api/OpenWeatherService.js`
 - [OpenWeatherMap](https://openweathermap.org/api) 
 - [RapidAPI GeoDB](https://rapidapi.com/wirefreethought/api/geodb-cities)
 
-## Architecture
+## 🏗️ Architecture
 
 ```
 src/
@@ -39,13 +39,13 @@ src/
 └── utilities/                    # Data processing & formatting
 ```
 
-## Performance Optimizations
+## ⚡ Performance Optimizations
 
 - **Search**: 300ms debounce, request cancellation, rate limiting
 - **API**: Parallel requests, error boundaries, caching
 - **UI**: Conditional rendering, optimized re-renders
 
-## Search Implementation
+## 🔍 Search Implementation
 
 ```javascript
 // Rate-limited search with abort signal
@@ -62,7 +62,7 @@ const loadOptions = async (inputValue) => {
 };
 ```
 
-## API Integration
+## 🌐 API Integration
 
 **Parallel Weather Data Fetching**:
 ```javascript
@@ -80,7 +80,7 @@ if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
 }
 ```
 
-## Scripts
+## 📋 Scripts
 
 ```bash
 npm start     # Development server
