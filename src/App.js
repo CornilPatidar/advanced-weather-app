@@ -200,7 +200,8 @@ function App() {
                 fontWeight: 'bold',
                 color: 'white',
                 fontFamily: 'Poppins',
-                background: 'linear-gradient(45deg, #f093fb 30%, #f5576c 90%)',
+                // Apply a clean sky-to-electric blue gradient to the title text
+                background: 'linear-gradient(45deg,rgb(211, 211, 211) 0%,rgb(255, 255, 255) 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',

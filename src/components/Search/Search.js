@@ -1,9 +1,18 @@
+// Search component: provides a city autocomplete field using react-select's AsyncSelect.
+// As the user types, it fetches city suggestions from the API and lets the user pick one.
+// Requests are safely cancelled as the input changes to avoid race conditions.
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/async';
 import { components } from 'react-select';
 import { fetchCities } from '../../api/OpenWeatherService';
 
-// Custom dropdown indicator (magnifying glass)
+/** Minimum characters required before we start searching the API. */
+const MIN_SEARCH_CHARACTERS = 2;
+
+/**
+ * Custom dropdown indicator (a magnifying glass icon) for the select component.
+ */
 const DropdownIndicator = (props) => (
   <components.DropdownIndicator {...props}>
     <svg
@@ -23,15 +32,36 @@ const DropdownIndicator = (props) => (
   </components.DropdownIndicator>
 );
 
+/**
+ * Search
+ * Renders an async city search input. When the user selects a city, it calls
+ * the provided `onSearchChange` callback with the selected option.
+ */
 const Search = ({ onSearchChange }) => {
   const [searchValue, setSearchValue] = useState(null);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  // Holds the AbortController for the most recent request so we can cancel it
+  // when the user types something new or when the component unmounts.
   const abortControllerRef = useRef(null);
 
+  /**
+   * Converts a city object from the API into an option understood by react-select.
+   */
+  const transformCityToOption = useCallback((city) => ({
+    value: `${city.latitude} ${city.longitude}`,
+    label: `${city.name}, ${city.countryCode}`,
+  }), []);
+
+  /**
+   * Called by AsyncSelect to fetch options based on current input.
+   * - Returns early if there are not enough characters.
+   * - Cancels the previous request before starting a new one.
+   * - Maps API results into select options.
+   */
   const loadOptions = useCallback(async (inputValue) => {
     const trimmedInput = (inputValue || '').trim();
-    if (!trimmedInput || trimmedInput.length < 2) return [];
+    if (!trimmedInput || trimmedInput.length < MIN_SEARCH_CHARACTERS) return [];
     
     // Cancel previous request if it exists
     if (abortControllerRef.current) {
@@ -49,10 +79,7 @@ const Search = ({ onSearchChange }) => {
         return [];
       }
       
-      const options = citiesList.data.map((city) => ({
-        value: `${city.latitude} ${city.longitude}`,
-        label: `${city.name}, ${city.countryCode}`,
-      }));
+      const options = citiesList.data.map(transformCityToOption);
       
       return options;
     } catch (error) {
@@ -71,16 +98,31 @@ const Search = ({ onSearchChange }) => {
     }
   }, []);
 
-  const onChangeHandler = (enteredData) => {
-    setSearchValue(enteredData);
-    // When an option is selected, show its label in the control
-    if (enteredData?.label) {
-      setInputText(enteredData.label);
+  /**
+   * When a user selects a city option, update the local state and notify parent.
+   */
+  const onChangeHandler = (selectedOption) => {
+    setSearchValue(selectedOption);
+    if (selectedOption?.label) {
+      setInputText(selectedOption.label);
     }
-    
-    // Always call parent handler - let parent decide what to do
-    onSearchChange(enteredData);
+    onSearchChange(selectedOption);
   };
+
+  /**
+   * Keep the input text in sync with what the user types.
+   * Prevent the text from being cleared on blur/menu close to preserve UX.
+   */
+  const handleInputChange = useCallback((newValue, { action }) => {
+    if (action === 'menu-close' || action === 'input-blur') {
+      return inputText;
+    }
+    if (action === 'input-change') {
+      setInputText(newValue);
+      return newValue;
+    }
+    return newValue;
+  }, [inputText]);
 
   // Abort any in-flight request when the component unmounts
   useEffect(() => {
@@ -93,7 +135,7 @@ const Search = ({ onSearchChange }) => {
 
   return (
     <AsyncSelect
-      placeholder="Search for cities (type at least 2 characters)"
+      placeholder={`Search for cities (type at least ${MIN_SEARCH_CHARACTERS} characters)`}
       value={searchValue}
       onChange={onChangeHandler}
       inputValue={inputText}
@@ -104,28 +146,26 @@ const Search = ({ onSearchChange }) => {
       isSearchable={true}
       isLoading={isLoading}
       aria-label="City search"
+      // Helpful user-facing messages
       noOptionsMessage={({ inputValue }) => 
-        inputValue && inputValue.length < 2 
-          ? "Type at least 2 characters to search" 
+        inputValue && inputValue.length < MIN_SEARCH_CHARACTERS 
+          ? `Type at least ${MIN_SEARCH_CHARACTERS} characters to search` 
           : "No cities found"
       }
       loadingMessage={() => "Searching cities..."}
+      // Replace indicator and hide the separator for a cleaner look
       components={{
         DropdownIndicator,
         IndicatorSeparator: () => null,
       }}
-      onInputChange={(newValue, { action }) => {
-        // Prevent clearing on menu close/open or when selecting option
-        if (action === 'menu-close' || action === 'input-blur') return inputText;
-        if (action === 'set-value' || action === 'input-change') {
-          setInputText(newValue);
-          return newValue;
-        }
-        return newValue;
-      }}
+      onInputChange={handleInputChange}
 
     />
   );
 };
 
 export default Search;
+
+Search.propTypes = {
+  onSearchChange: PropTypes.func.isRequired,
+};
