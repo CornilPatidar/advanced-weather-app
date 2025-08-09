@@ -72,21 +72,13 @@ const Search = ({ onSearchChange }) => {
       isClearable
       isSearchable
       isLoading={isLoading}
-      debounceTimeout={300}
+      debounceTimeout={800}
       noOptionsMessage={({ inputValue }) => 
         inputValue && inputValue.length < 2 
           ? "Type at least 2 characters to search" 
-          : isLoading 
-            ? "Searching..." 
-            : "No cities found"
+          : "No cities found"
       }
       loadingMessage={() => "Searching cities..."}
-      styles={{
-        menu: (provided) => ({
-          ...provided,
-          zIndex: 9999,
-        }),
-      }}
     />
   );
 };

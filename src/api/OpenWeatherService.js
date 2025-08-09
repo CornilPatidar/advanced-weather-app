@@ -30,30 +30,14 @@ export async function fetchWeatherData(lat, lon) {
   }
 }
 
-// Rate limiting variables
-let lastRequestTime = 0;
-const MIN_REQUEST_INTERVAL = 500; // Minimum 500ms between requests
-
 export async function fetchCities(input, signal) {
   try {
-    // Implement basic rate limiting
-    const now = Date.now();
-    const timeSinceLastRequest = now - lastRequestTime;
-    
-    if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
-      const delay = MIN_REQUEST_INTERVAL - timeSinceLastRequest;
-      console.log(`Delaying request by ${delay}ms to avoid rate limiting`);
-      await new Promise(resolve => setTimeout(resolve, delay));
-    }
-    
-    lastRequestTime = Date.now();
-    
     // Set up timeout
     const timeoutId = setTimeout(() => {
       if (signal && !signal.aborted) {
-        console.log('Request timeout after 8 seconds');
+        console.log('Request timeout after 10 seconds');
       }
-    }, 8000);
+    }, 10000);
     
     const response = await fetch(
       `${GEO_API_URL}/cities?minPopulation=10000&namePrefix=${input}&limit=10`,
@@ -67,21 +51,21 @@ export async function fetchCities(input, signal) {
 
     if (!response.ok) {
       if (response.status === 429) {
-        console.warn('Rate limit exceeded for "' + input + '"');
+        console.warn('Rate limit exceeded, please wait before searching again');
         throw new Error('Rate limit exceeded. Please wait a moment before searching again.');
       }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('✓ API results for "' + input + '":', data.data?.length || 0, 'cities');
+    console.log('Search results for "' + input + '":', data.data?.length || 0, 'cities');
     return data;
   } catch (error) {
     if (error.name === 'AbortError') {
-      console.log('✗ Search cancelled for "' + input + '"');
+      console.log('Search request was cancelled');
       throw error;
     }
-    console.error('✗ API error for "' + input + '":', error.message);
+    console.error('Error fetching cities for "' + input + '":', error);
     throw error;
   }
 }
