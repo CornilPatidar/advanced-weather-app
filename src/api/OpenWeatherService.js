@@ -13,7 +13,7 @@ const GEO_API_OPTIONS = {
 
 export async function fetchWeatherData(lat, lon) {
   try {
-    let [weatherPromise, forcastPromise] = await Promise.all([
+    const [weatherFetch, forecastFetch] = await Promise.all([
       fetch(
         `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
       ),
@@ -22,25 +22,41 @@ export async function fetchWeatherData(lat, lon) {
       ),
     ]);
 
-    const weatherResponse = await weatherPromise.json();
-    const forcastResponse = await forcastPromise.json();
-    return [weatherResponse, forcastResponse];
+    const weatherResponse = await weatherFetch.json();
+    const forecastResponse = await forecastFetch.json();
+    return [weatherResponse, forecastResponse];
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
+// Rate limiting for smooth performance
+let lastRequestTime = 0;
+const MIN_REQUEST_INTERVAL = 300; // 300ms between requests
+
 export async function fetchCities(input, signal) {
   try {
+    // Implement rate limiting
+    const now = Date.now();
+    const timeSinceLastRequest = now - lastRequestTime;
+    
+    if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
+      const delay = MIN_REQUEST_INTERVAL - timeSinceLastRequest;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+    
+    lastRequestTime = Date.now();
+    
     // Set up timeout
     const timeoutId = setTimeout(() => {
       if (signal && !signal.aborted) {
-        console.log('Request timeout after 10 seconds');
+        console.log('Request timeout after 5 seconds');
       }
-    }, 10000);
+    }, 5000);
     
+    const query = typeof input === 'string' ? input.trim() : '';
     const response = await fetch(
-      `${GEO_API_URL}/cities?minPopulation=10000&namePrefix=${input}&limit=10`,
+      `${GEO_API_URL}/cities?minPopulation=10000&namePrefix=${encodeURIComponent(query)}&limit=10`,
       {
         ...GEO_API_OPTIONS,
         signal: signal
@@ -58,14 +74,12 @@ export async function fetchCities(input, signal) {
     }
 
     const data = await response.json();
-    console.log('Search results for "' + input + '":', data.data?.length || 0, 'cities');
     return data;
   } catch (error) {
     if (error.name === 'AbortError') {
-      console.log('Search request was cancelled');
       throw error;
     }
-    console.error('Error fetching cities for "' + input + '":', error);
+    console.error('Error fetching cities', error);
     throw error;
   }
 }

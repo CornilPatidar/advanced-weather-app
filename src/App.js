@@ -25,8 +25,11 @@ function App() {
   const [error, setError] = useState(false);
 
   const searchChangeHandler = async (enteredData) => {
+    console.log('App searchChangeHandler received:', enteredData);
+    
     // Handle case when search is cleared (enteredData is null)
     if (!enteredData || !enteredData.value) {
+      console.log('Clearing weather data...');
       // Reset all weather data when search is cleared
       setTodayWeather(null);
       setTodayForecast([]);
