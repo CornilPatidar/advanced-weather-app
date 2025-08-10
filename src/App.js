@@ -18,7 +18,6 @@ import TodayWeather from './components/TodayWeather/TodayWeather';
 // API + helpers
 import { fetchWeatherData } from './api/OpenWeatherService';
 import { transformDateFormat } from './utilities/DatetimeUtils';
-import UTCDatetime from './components/Reusable/UTCDatetime';
 import LoadingBox from './components/Reusable/LoadingBox';
 import { ReactComponent as SplashIcon } from './assets/splash-icon.svg';
 import appLogo from './assets/logo.png';
@@ -303,9 +302,7 @@ if (isLoading) {
               }}
             />
 
-            {/* Current UTC time in the header */}
-            <UTCDatetime />
-            {/* Link to the project's GitHub */}
+            
             <Link
               href="https://github.com/cornil-devil/advanced-weather-app"
               target="_blank"
