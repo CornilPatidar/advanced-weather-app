@@ -20,10 +20,7 @@ export default function ErrorBox(props) {
         border:
           props.type === 'info' ? '1px solid #f5a922' : '1px solid #DC2941',
         borderRadius: '8px',
-        background:
-          props.type === 'info'
-            ? 'rgba(245, 169, 34, .1)'
-            : 'rgba(220, 41, 65, .25)',
+       
       }}
     >
       <ErrorOutlineIcon sx={{ fontSize: '24px' }} />

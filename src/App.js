@@ -8,7 +8,12 @@ import { transformDateFormat } from './utilities/DatetimeUtils';
 import UTCDatetime from './components/Reusable/UTCDatetime';
 import LoadingBox from './components/Reusable/LoadingBox';
 import { ReactComponent as SplashIcon } from './assets/splash-icon.svg';
-
+import sunImage from './assets/weather/sun.jpg';
+import fogImage from './assets/weather/foggy.jpg';
+import stormImage from './assets/weather/storm.jpg';
+import snowImage from './assets/weather/snow.jpg';
+import rainyImage from './assets/weather/rainy.jpg';
+import overcastImage from './assets/weather/overcast.jpg';
 import ErrorBox from './components/Reusable/ErrorBox';
 import { ALL_DESCRIPTIONS } from './utilities/DateConstants';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -162,6 +167,24 @@ function App() {
     );
   }
 
+  // Map current weather description to a background image
+  const getBackgroundImageForDescription = (description) => {
+    if (!description) return null;
+    const normalized = String(description).toLowerCase();
+    if (normalized.includes('clear sky')) return sunImage; // available asset
+    if (normalized.includes('snow')) return snowImage;
+    if (normalized.includes('thunder') || normalized.includes('storm')) return stormImage;
+    if (normalized.includes('fog') || normalized.includes('mist') || normalized.includes('haze')) return fogImage;
+    if (normalized.includes('overcast')) return overcastImage;
+    if (normalized.includes('rain')) return rainyImage;
+  
+
+    return null;
+  };
+
+  const currentDescription = todayWeather?.weather?.[0]?.description;
+  const resolvedBgImage = getBackgroundImageForDescription(currentDescription);
+
   return (
     <Container
       sx={{
@@ -173,13 +196,21 @@ function App() {
         padding: '1rem 0 3rem',
         marginBottom: '1rem',
         borderRadius: {
-          xs: 'none',
-          sm: '0 0 1rem 1rem',
+          xs: '1rem',
+          sm: '1rem',
+          md: '1rem',
         },
+        overflow: 'hidden',
         boxShadow: {
           xs: 'none',
           sm: 'rgba(0,0,0, 0.5) 0px 10px 15px -3px, rgba(0,0,0, 0.5) 0px 4px 6px -2px',
         },
+        backgroundImage: resolvedBgImage
+          ? `linear-gradient(rgba(80, 47, 117, 0.71), rgba(76, 40, 117, 0.7)), url(${resolvedBgImage})`
+          : `linear-gradient(rgba(126, 89, 226, 0.71), rgba(76, 40, 117, 0.7))`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
       }}
     >
       <Grid container columnSpacing={2}>
