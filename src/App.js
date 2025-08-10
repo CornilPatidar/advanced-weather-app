@@ -208,7 +208,7 @@ function App() {
           sm: 'rgba(0,0,0, 0.5) 0px 10px 15px -3px, rgba(0,0,0, 0.5) 0px 4px 6px -2px',
         },
         backgroundImage: resolvedBgImage
-          ? `linear-gradient(rgba(80, 47, 117, 0.71), rgba(76, 40, 117, 0.7)), url(${resolvedBgImage})`
+          ? `linear-gradient(rgba(80, 47, 117, 0.8), rgba(76, 40, 117, 0.77)), url(${resolvedBgImage})`
           : `linear-gradient(rgba(126, 89, 226, 0.71), rgba(76, 40, 117, 0.7))`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
