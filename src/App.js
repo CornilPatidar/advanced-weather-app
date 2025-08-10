@@ -21,6 +21,7 @@ import { transformDateFormat } from './utilities/DatetimeUtils';
 import UTCDatetime from './components/Reusable/UTCDatetime';
 import LoadingBox from './components/Reusable/LoadingBox';
 import { ReactComponent as SplashIcon } from './assets/splash-icon.svg';
+import appLogo from './assets/logo.png';
 // Weather background images
 import sunImage from './assets/weather/sun.jpg';
 import fogImage from './assets/weather/foggy.jpg';
@@ -290,23 +291,17 @@ if (isLoading) {
               marginBottom: '1rem',
             }}
           >
-            {/* App title on the left */}
-            <Typography
-              variant="h6"
+            {/* App logo on the left */}
+            <Box
+              component="img"
+              src={appLogo}
+              alt="Weatherwise Pro logo"
               sx={{
-                fontSize: { xs: '18px', sm: '20px', md: '24px' },
-                fontWeight: 'bold',
-                color: 'white',
-                fontFamily: 'Poppins',
-                // Apply a clean sky-to-electric blue gradient to the title text
-                background: 'linear-gradient(45deg,rgb(255, 255, 255) 0%,rgb(255, 255, 255) 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+                display: 'block',
+                height: { xs: 48, sm: 32, md: 66 },
+                width: 'auto',
               }}
-            >
-              ⛅ WeatherWise Pro
-            </Typography>
+            />
 
             {/* Current UTC time in the header */}
             <UTCDatetime />
