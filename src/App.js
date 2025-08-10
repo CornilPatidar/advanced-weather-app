@@ -13,6 +13,7 @@ import fogImage from './assets/weather/foggy.jpg';
 import stormImage from './assets/weather/storm.jpg';
 import snowImage from './assets/weather/snow.jpg';
 import rainyImage from './assets/weather/rainy.jpg';
+import cloudsImage from './assets/weather/clouds.jpg';
 import overcastImage from './assets/weather/overcast.jpg';
 import ErrorBox from './components/Reusable/ErrorBox';
 import { ALL_DESCRIPTIONS } from './utilities/DateConstants';
@@ -173,6 +174,7 @@ function App() {
     const normalized = String(description).toLowerCase();
     if (normalized.includes('clear sky')) return sunImage; // available asset
     if (normalized.includes('snow')) return snowImage;
+    if (normalized.includes('cloud')) return cloudsImage;
     if (normalized.includes('thunder') || normalized.includes('storm')) return stormImage;
     if (normalized.includes('fog') || normalized.includes('mist') || normalized.includes('haze')) return fogImage;
     if (normalized.includes('overcast')) return overcastImage;
