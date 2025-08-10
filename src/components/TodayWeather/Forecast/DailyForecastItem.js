@@ -21,7 +21,7 @@ const DailyForecastItem = (props) => {
         component="h3"
         sx={{
           fontWeight: '400',
-          fontSize: { xs: '10px', sm: '12px' },
+          fontSize: { xs: '12px', sm: '12px' },
           color: 'rgba(255, 255, 255, .7)',
           lineHeight: 1,
           padding: '4px',
@@ -58,7 +58,7 @@ const DailyForecastItem = (props) => {
         component="h3"
         sx={{
           fontWeight: '600',
-          fontSize: { xs: '12px', sm: '14px' },
+          fontSize: { xs: '14px', sm: '14px' },
           color: 'white',
           textTransform: 'uppercase',
           lineHeight: 1,

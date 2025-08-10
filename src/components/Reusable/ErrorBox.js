@@ -23,7 +23,7 @@ export default function ErrorBox(props) {
        
       }}
     >
-      <ErrorOutlineIcon sx={{ fontSize: '24px' }} />
+      <ErrorOutlineIcon sx={{ fontSize: { xs: '26px', sm: '24px' } }} />
 
       <Typography
         variant="h2"
@@ -31,8 +31,8 @@ export default function ErrorBox(props) {
         sx={{
           fontSize:
             props.type === 'info'
-              ? { xs: '12px', sm: '14px' }
-              : { xs: '14px', sm: '16px' },
+              ? { xs: '14px', sm: '14px' }
+              : { xs: '16px', sm: '16px' },
           fontFamily: 'Poppins',
           textAlign: 'center',
         }}

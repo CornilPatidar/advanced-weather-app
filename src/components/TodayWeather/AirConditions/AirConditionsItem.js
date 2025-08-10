@@ -9,17 +9,17 @@ const AirConditionsItem = (props) => {
   let iconContent;
 
   if (props.type === 'temperature')
-    iconContent = <ThermostatIcon sx={{ fontSize: '18px' }} />;
+    iconContent = <ThermostatIcon sx={{ fontSize: { xs: '20px', sm: '18px' } }} />;
   else if (props.type === 'wind')
-    iconContent = <AirIcon sx={{ fontSize: '18px' }} />;
+    iconContent = <AirIcon sx={{ fontSize: { xs: '20px', sm: '18px' } }} />;
   else if (props.type === 'clouds')
-    iconContent = <FilterDramaIcon sx={{ fontSize: '18px' }} />;
+    iconContent = <FilterDramaIcon sx={{ fontSize: { xs: '20px', sm: '18px' } }} />;
   else if (props.type === 'humidity')
     iconContent = (
       <SvgIcon
         component={HumidityIcon}
         inheritViewBox
-        sx={{ fontSize: '18px' }}
+        sx={{ fontSize: { xs: '20px', sm: '18px' } }}
       />
     );
 
@@ -57,7 +57,7 @@ const AirConditionsItem = (props) => {
         <Box
           sx={{
             color: 'rgba(255, 255, 255, .7)',
-            fontSize: { xs: '10px', sm: '12px', md: '14px' },
+            fontSize: { xs: '12px', sm: '12px', md: '14px' },
             paddingLeft: { xs: '0px', sm: '4px', md: '6px' },
             paddingTop: { xs: '2px', sm: '0px' },
             display: 'flex',
@@ -79,7 +79,7 @@ const AirConditionsItem = (props) => {
           sx={{
             fontFamily: 'Poppins',
             fontWeight: '600',
-            fontSize: { xs: '12px', sm: '14px', md: '16px' },
+            fontSize: { xs: '14px', sm: '14px', md: '16px' },
             color: 'white',
             lineHeight: 1,
           }}

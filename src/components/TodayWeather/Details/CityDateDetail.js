@@ -19,7 +19,7 @@ const CityDateDetail = (props) => {
         sx={{
           fontFamily: 'Poppins',
           fontWeight: '600',
-          fontSize: { xs: '12px', sm: '14px', md: '16px' },
+          fontSize: { xs: '14px', sm: '14px', md: '16px' },
           color: 'white',
           textTransform: 'uppercase',
           lineHeight: 1,
@@ -32,7 +32,7 @@ const CityDateDetail = (props) => {
         variant="h4"
         component="h4"
         sx={{
-          fontSize: { xs: '10px', sm: '12px', md: '14px' },
+          fontSize: { xs: '12px', sm: '12px', md: '14px' },
           color: 'rgba(255,255,255, .7)',
           lineHeight: 1,
           letterSpacing: { xs: '1px', sm: '0' },

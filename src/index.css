@@ -12,6 +12,20 @@ body {
   background: linear-gradient(-35deg, #667eea 0%, #764ba2 100%);
 }
 
+/* Slightly larger default font on small screens */
+@media (max-width: 600px) {
+  html { font-size: 17px; }
+}
+
+/* React Select (Search) mobile font sizes */
+@media (max-width: 600px) {
+  .city-search .rs__control { min-height: 46px; }
+  .city-search .rs__single-value,
+  .city-search .rs__input-container,
+  .city-search .rs__placeholder { font-size: 0.95rem; }
+  .city-search .rs__menu { font-size: 0.95rem; }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

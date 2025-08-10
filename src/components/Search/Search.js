@@ -135,7 +135,7 @@ const Search = ({ onSearchChange }) => {
 
   return (
     <AsyncSelect
-      placeholder={`Search for cities (type at least ${MIN_SEARCH_CHARACTERS} characters)`}
+      placeholder={`Search for cities`}
       value={searchValue}
       onChange={onChangeHandler}
       inputValue={inputText}
@@ -146,6 +146,8 @@ const Search = ({ onSearchChange }) => {
       isSearchable={true}
       isLoading={isLoading}
       aria-label="City search"
+      className="city-search"
+      classNamePrefix="rs"
       // Helpful user-facing messages
       noOptionsMessage={({ inputValue }) => 
         inputValue && inputValue.length < MIN_SEARCH_CHARACTERS 

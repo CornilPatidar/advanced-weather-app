@@ -20,7 +20,7 @@ const DailyForecast = ({ data, forecastList }) => {
         variant="h5"
         component="h5"
         sx={{
-          fontSize: { xs: '10px', sm: '12px' },
+          fontSize: { xs: '12px', sm: '12px' },
           textAlign: 'center',
           lineHeight: 1,
           color: '#04C4E0',

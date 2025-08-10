@@ -11,17 +11,17 @@ const WeeklyForecastItem = ({ value, type }) => {
   if (type === 'temperature')
     iconContent = (
       <ThermostatIcon
-        sx={{ fontSize: { xs: '15px', sm: '16px', md: '18px' } }}
+        sx={{ fontSize: { xs: '16px', sm: '16px', md: '18px' } }}
       />
     );
   else if (type === 'wind')
     iconContent = (
-      <AirIcon sx={{ fontSize: { xs: '15px', sm: '16px', md: '18px' } }} />
+      <AirIcon sx={{ fontSize: { xs: '16px', sm: '16px', md: '18px' } }} />
     );
   else if (type === 'clouds')
     iconContent = (
       <FilterDramaIcon
-        sx={{ fontSize: { xs: '15px', sm: '16px', md: '18px' } }}
+        sx={{ fontSize: { xs: '16px', sm: '16px', md: '18px' } }}
       />
     );
   else if (type === 'humidity')
@@ -30,7 +30,7 @@ const WeeklyForecastItem = ({ value, type }) => {
         component={HumidityIcon}
         inheritViewBox
         sx={{
-          fontSize: { xs: '15px', sm: '16px', md: '18px' },
+          fontSize: { xs: '16px', sm: '16px', md: '18px' },
         }}
       />
     );
@@ -51,7 +51,7 @@ const WeeklyForecastItem = ({ value, type }) => {
         variant="p"
         component="p"
         sx={{
-          fontSize: { xs: '12px', sm: '13px' },
+          fontSize: { xs: '13px', sm: '13px' },
           fontWeight: { xs: '400', sm: '600' },
           color: 'white',
           fontFamily: 'Poppins',

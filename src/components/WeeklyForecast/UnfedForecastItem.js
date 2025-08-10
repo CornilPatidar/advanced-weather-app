@@ -19,7 +19,7 @@ const UnfedForecastItem = (props) => {
           sx={{
             fontFamily: 'Poppins',
             fontWeight: { xs: '400', sm: '600' },
-            fontSize: { xs: '12px', sm: '13px', md: '14px' },
+            fontSize: { xs: '14px', sm: '13px', md: '14px' },
             color: 'white',
             lineHeight: 1,
             height: '31px',
@@ -41,7 +41,7 @@ const UnfedForecastItem = (props) => {
           <Box
             component="img"
             sx={{
-              width: { xs: '24px', sm: '28px', md: '31px' },
+              width: { xs: '26px', sm: '28px', md: '31px' },
               height: 'auto',
               marginRight: '4px',
             }}
@@ -52,7 +52,7 @@ const UnfedForecastItem = (props) => {
             variant="h4"
             component="h4"
             sx={{
-              fontSize: { xs: '12px', md: '14px' },
+              fontSize: { xs: '13px', md: '14px' },
               color: 'rgba(255,255,255, .8)',
               lineHeight: 1,
               fontFamily: 'Roboto Condensed',
