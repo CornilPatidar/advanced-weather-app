@@ -298,7 +298,7 @@ if (isLoading) {
               alt="Weatherwise Pro logo"
               sx={{
                 display: 'block',
-                height: { xs: 48, sm: 32, md: 66 },
+                height: { xs: 48, sm: 55, md: 66 },
                 width: 'auto',
               }}
             />
