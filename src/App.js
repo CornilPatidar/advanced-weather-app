@@ -27,7 +27,7 @@ import fogImage from './assets/weather/foggy.jpg';
 import stormImage from './assets/weather/storm.jpg';
 import snowImage from './assets/weather/snow.jpg';
 import rainyImage from './assets/weather/rainy.jpg';
-import cloudsImage from './assets/weather/clouds.jpg';
+import cloudsImage from './assets/weather/clouds.png';
 import overcastImage from './assets/weather/overcast.jpg';
 import ErrorBox from './components/Reusable/ErrorBox';
 import { ALL_DESCRIPTIONS } from './utilities/DateConstants';
