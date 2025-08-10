@@ -201,7 +201,7 @@ function App() {
                 color: 'white',
                 fontFamily: 'Poppins',
                 // Apply a clean sky-to-electric blue gradient to the title text
-                background: 'linear-gradient(45deg,rgb(211, 211, 211) 0%,rgb(255, 255, 255) 100%)',
+                background: 'linear-gradient(45deg,rgb(255, 255, 255) 0%,rgb(255, 255, 255) 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
