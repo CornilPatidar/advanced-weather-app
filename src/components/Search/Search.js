@@ -44,6 +44,8 @@ const Search = ({ onSearchChange }) => {
   // Holds the AbortController for the most recent request so we can cancel it
   // when the user types something new or when the component unmounts.
   const abortControllerRef = useRef(null);
+  // Debounce timer to avoid firing requests on every keystroke
+  const debounceTimeoutRef = useRef(null);
 
   /**
    * Converts a city object from the API into an option understood by react-select.
@@ -59,50 +61,56 @@ const Search = ({ onSearchChange }) => {
    * - Cancels the previous request before starting a new one.
    * - Maps API results into select options.
    */
-  const loadOptions = useCallback(async (inputValue) => {
+  const loadOptions = useCallback((inputValue) => {
     const trimmedInput = (inputValue || '').trim();
-    if (!trimmedInput || trimmedInput.length < MIN_SEARCH_CHARACTERS) return [];
-    
+    if (!trimmedInput || trimmedInput.length < MIN_SEARCH_CHARACTERS) {
+      return Promise.resolve([]);
+    }
+
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+
     // Cancel previous request if it exists
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
-    
+
     // Create new abort controller for this request
     abortControllerRef.current = new AbortController();
-    
-    try {
+
+    return new Promise((resolve) => {
       setIsLoading(true);
-      const citiesList = await fetchCities(trimmedInput, abortControllerRef.current.signal);
-      
-      if (!citiesList?.data) {
-        return [];
-      }
-      
-      const options = citiesList.data.map(transformCityToOption);
-      
-      return options;
-    } catch (error) {
-      if (error.name === 'AbortError') {
-        return [];
-      }
-      
-      // Handle rate limiting gracefully
-      if (typeof error.message === 'string' && error.message.includes('Rate limit exceeded')) {
-        return [];
-      }
-      
-      return [];
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+      debounceTimeoutRef.current = setTimeout(async () => {
+        try {
+          const citiesList = await fetchCities(trimmedInput, abortControllerRef.current.signal);
+          if (!citiesList?.data) {
+            resolve([]);
+            return;
+          }
+          const options = citiesList.data.map(transformCityToOption);
+          resolve(options);
+        } catch (error) {
+          console.warn('City search failed:', error);
+          resolve([]);
+        } finally {
+          setIsLoading(false);
+        }
+      }, 250);
+    });
+  }, [transformCityToOption]);
 
   /**
    * When a user selects a city option, update the local state and notify parent.
    */
   const onChangeHandler = (selectedOption) => {
     setSearchValue(selectedOption);
+    // If cleared via the clear icon or programmatically
+    if (!selectedOption) {
+      setInputText('');
+      onSearchChange(null);
+      return;
+    }
     if (selectedOption?.label) {
       setInputText(selectedOption.label);
     }
@@ -119,14 +127,22 @@ const Search = ({ onSearchChange }) => {
     }
     if (action === 'input-change') {
       setInputText(newValue);
+      // If the user cleared the text manually, clear the selected value and inform parent
+      if ((newValue || '').trim() === '') {
+        setSearchValue(null);
+        onSearchChange(null);
+      }
       return newValue;
     }
     return newValue;
-  }, [inputText]);
+  }, [inputText, onSearchChange]);
 
-  // Abort any in-flight request when the component unmounts
+  // Abort any in-flight request and clear pending debounce when the component unmounts
   useEffect(() => {
     return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
@@ -140,9 +156,9 @@ const Search = ({ onSearchChange }) => {
       onChange={onChangeHandler}
       inputValue={inputText}
       loadOptions={loadOptions}
-      cacheOptions={true}
+      cacheOptions={false}
       defaultOptions={false}
-      isClearable={false}
+      isClearable={true}
       isSearchable={true}
       isLoading={isLoading}
       aria-label="City search"

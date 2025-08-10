@@ -62,6 +62,9 @@ export async function fetchCities(input, signal) {
     if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
       const delay = MIN_REQUEST_INTERVAL - timeSinceLastRequest;
       await new Promise(resolve => setTimeout(resolve, delay));
+      if (signal?.aborted) {
+        throw new DOMException('Aborted', 'AbortError');
+      }
     }
     
     lastRequestTime = Date.now();
