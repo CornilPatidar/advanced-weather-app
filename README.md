@@ -15,7 +15,7 @@ Try it now: [advanced-weather-app-delta.vercel.app](https://advanced-weather-app
 ## 🚀 Tech Stack
 
 ```
-React 18 | OpenWeatherMap API | GeoDB Cities API | React Select
+React 18 | OpenWeatherMap API | GeoDB Cities API | React Select 
 ```
 
 ## 🛠️ Quick Start
